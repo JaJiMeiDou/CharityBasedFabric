@@ -1,0 +1,121 @@
+cd ~/go/src/github.com/hyperledger/fabric/testfabric/deploy
+docker-compose up -d
+ipfs daemon
+
+docker exec -it cli bash
+(peer channel list 查看已经加入的channel)
+
+peer chaincode install -n charity1 -v 1.0.0 -l golang -p github.com/chaincode/charity
+
+peer chaincode instantiate -o orderer.imocc.com:7050 -C mychannel -n charity1 -l golang -v 1.0.0  -c '{"Args":["init"]}'
+
+链码升级
+peer chaincode install -n charity1 -v 1.3.3 -l golang -p github.com/chaincode/charity
+peer chaincode upgrade -C mychannel -n charity1 -v 1.3.3 -c '{"Args":[""]}'
+
+（docker images查看镜像）
+（docker logs --tail 1000 peer0.org1.imocc.com）
+
+
+tmux new -t name
+tmux switch -t charity-3
+tmux attach -t ipfs
+
+# 划分左右两个窗格
+$ tmux split-window -h
+# 光标切换到左边窗格
+$ tmux select-pane -L
+# 光标切换到右边窗格
+$ tmux select-pane -R
+Ctrl+b x：关闭当前窗格。
+
+tmux ls
+tmux kill-window -t name
+
+tmux new-window
+Ctrl+b p：切换到上一个窗口（按照状态栏上的顺序）
+cd ~/go/src/github.com/hyperledger/fabric/testfabric/chaincode/charity
+
+安装和实例化
+peer chaincode install -n charity1 -v 1.0.0 -l golang -p github.com/chaincode/charity
+peer chaincode instantiate -o orderer.imocc.com:7050 -C mychannel -n charity1 -l golang -v 1.0.0 -c '{"Args":["init"]}'
+
+1用户开户     1
+peer chaincode invoke -C mychannel -n charity1 -c '{"Args":["userRegister", "user4", "id4","phone4","password4"]}'
+
+2查询用户信息    1
+peer chaincode query -C mychannel -n charity1 -c '{"Args":["LogIn","id4","password4"]}'
+
+docker logs --tail 1000 peer0.org1.imocc.com
+
+3发布求助信息 1
+peer chaincode invoke -C mychannel -n charity1 -c '{"Args":["applyforHelp", "id4", "[{\"category\":\"kouzhao\",\"number\":20},{\"category\":\"fanghufu\",\"number\":10}]","org1","address1","[\"photo1\",\"photo2\"]"]}'
+
+4查询 未审核的求助信息     1
+peer chaincode query -C mychannel -n charity1 -c '{"Args":["queryUncheckedHelp"]}'  
+
+5审核求助信息    1
+peer chaincode invoke -C mychannel -n charity1 -c '{"Args":["checkHelp","id40","true","id4"]}' 
+
+6查询 自己的所有求助信息    1
+peer chaincode query -C mychannel -n charity1 -c '{"Args":["queryAllMyHelp","id4"]}'
+
+7查询所有被审核通过的求助信息    1
+peer chaincode query -C mychannel -n charity1 -c '{"Args":["queryAllHelp"]}'  
+
+8捐赠者针对求助信息进行慈善捐赠 1
+peer chaincode invoke -C mychannel -n charity1 -c '{"Args":["supportTheHelp","id40","id4","id3","[{\"category\":\"kouzhao\",\"number\":5},{\"category\":\"fanghufu\",\"number\":2}]","[\"photo1\",\"photo2\"]"]}'
+
+补充物流信息 1
+peer chaincode invoke -C mychannel -n charity1 -c '{"Args":["addSupportLogi","id30","henan","anhui","shunfeng","0000"]}'
+
+9物流公司记录中转点     1
+peer chaincode invoke -C mychannel -n charity1 -c '{"Args":["addSupportPath","id30","shangcai","[\"photo1\",\"photo2\"]","2020/4/12"]}'
+peer chaincode invoke -C mychannel -n charity1 -c '{"Args":["addSupportPath","id30","zhoukou","[\"photo1\",\"photo2\"]","2020/4/13"]}'
+
+10捐赠方查询 自己所有捐赠信息记录 1
+peer chaincode query -C mychannel -n charity1 -c '{"Args":["queryAllMySupport","id3"]}'
+
+11求助方查询 某个求助信息的所有被捐赠信息记录 1
+peer chaincode query -C mychannel -n charity1 -c '{"Args":["queryAllSupportToTheHelp","id4","id40"]}'
+
+12求助方 确认捐赠记录，填写反馈信息 1
+peer chaincode invoke -C mychannel -n charity1 -c '{"Args":["adoptSupportToTheHelp","id40","[\"photo1\",\"photo2\"]","good job!"]}'
+
+cd ~/go/src/github.com/hyperledger/fabric/testfabric/application
+
+
+
+http://175.24.90.252:8080/view/home
+
+
+		testfabric/
+		├── application
+		│   ├── application
+		│   ├── config.yaml
+		│   ├── main.go
+		│   ├── reso
+		│   │   ├── css
+		│   │   ├── fonts
+		│   │   ├── img
+		│   │   ├── js
+		│   │   └── uploadImage
+		│   └── view
+		│       ├── addpath.html
+		│       ├── home.html
+		│       ├── login.html
+		│       ├── myhelp.html
+		│       ├── mysupport.html
+		│       ├── register.html
+		│       └── related_support.html
+		├── chaincode
+		│   └── charity
+		│       └── charity.go
+		├── deploy
+		│   ├── config
+		│   ├── configtx.yaml
+		│   ├── crypto-config
+		│   ├── crypto-config.yaml
+		│   └── docker-compose.yaml
+		└── images
+
