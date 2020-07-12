@@ -1,0 +1,224 @@
+input,
+select,
+textarea {
+  font-size: 100%;
+}
+a,
+button,
+input {
+  outline: none;
+}
+* {
+  margin: 0;
+  padding: 0;
+}
+ul,
+li {
+  list-style: none;
+}
+.hidden {
+  visibility: hidden !important;
+  margin-bottom: 0 !important;
+  margin-top: 0 !important;
+}
+.none {
+  display: none !important;
+}
+.file {
+  position: relative;
+  display: inline-block;
+  background: #d0eeff;
+  border: 1px solid #99d3f5;
+  border-radius: 4px;
+  padding: 4px 12px;
+  overflow: hidden;
+  color: #1e88c7;
+  text-decoration: none;
+  text-indent: 0;
+  line-height: 20px;
+}
+.file input {
+  position: absolute;
+  width: 90px;
+  height: 30px;
+  font-size: 100px;
+  right: 0;
+  top: 0;
+  opacity: 0;
+}
+.file:hover {
+  background: #aadffd;
+  border-color: #78c3f3;
+  color: #004974;
+  text-decoration: none;
+}
+.upload_box {
+  position: relative;
+  margin: 1rem auto;
+}
+.upload_box {
+  border: 1px solid #ccc;
+  background-color: #fcfcfc;
+  overflow: hidden;
+}
+.upload_box .upload_choose {
+  padding: 1rem;
+  padding-bottom: 0.8rem;
+  overflow: hidden;
+}
+.upload_box .upload_drag_area {
+  display: block;
+  width: 96%;
+  padding: 4rem 0;
+  margin: 0px auto 10px;
+  border: 1px dashed #ddd;
+  background: #fff;
+  color: #999;
+  text-align: center;
+  vertical-align: middle;
+}
+.upload_box .upload_main .upload_preview {
+  background-color: #fff;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+  overflow: hidden;
+}
+.upload_box .upload_main .upload_preview ul {
+  width: 99%;
+  margin: 0 auto;
+}
+.upload_box .upload_main .upload_preview .upload_append_list {
+  position: relative;
+  margin-left: 13px;
+  margin-top: 10px;
+  float: left;
+  width: 102px;
+}
+.upload_box .upload_main .upload_preview .upload_append_list p {
+  position: relative;
+  float: left;
+  width: 100px;
+  height: 100px;
+  border: 1px solid #dedede;
+}
+.upload_box .upload_main .upload_preview .upload_append_list p em {
+  float: left;
+  padding: 10px;
+  font-style: normal;
+  overflow: hidden;
+}
+.upload_box .upload_main .upload_preview .upload_append_list p span.upload_delete {
+  position: absolute;
+  top: 3px;
+  right: 2px;
+  background: url('../images/cuo.png') no-repeat 0 0;
+  cursor: pointer;
+  text-align: center;
+  width: 14px;
+  height: 14px;
+  background-size: 14px 14px;
+}
+.upload_box .upload_main .upload_preview .upload_append_list p img {
+  display: block;
+  width: 80px;
+  height: 80px;
+  overflow: hidden;
+}
+.upload_box .upload_main .upload_preview .upload_append_list .upload_progress {
+  display: none;
+  padding: 5px;
+  border-radius: 10px;
+  color: #fff;
+  background-color: rgba(0,0,0,0.6);
+  position: absolute;
+  left: 25px;
+  top: 45px;
+}
+.upload_box .upload_main .upload_preview .upload_append_list .filename {
+  font-size: 12px;
+  text-align: center;
+  display: block;
+  width: 100%;
+  line-height: 22px;
+  height: 22px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.upload_box .upload_submit {
+  margin-left: 18px;
+  margin-bottom: 16px;
+  margin-top: 16px;
+  overflow: hidden;
+}
+.upload_box .upload_submit .upload_submit_btn {
+  border: none;
+  background: #f0594e;
+  padding: 2px 15px;
+  color: #fff;
+  border-radius: 3px;
+  height: 32px;
+  font-size: 14px;
+  cursor: pointer;
+}
+.upload_drag_hover {
+  border-color: #069;
+  box-shadow: inset 2px 2px 4px rgba(0,0,0,0.5);
+  color: #333;
+}
+.upload-progress {
+  font-style: normal;
+  font-size: 12px;
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  text-align: center;
+  line-height: 80px;
+  color: #f00;
+}
+.upload-progress.success {
+  background: url('../images/gou.png') no-repeat 0 0;
+  width: 50px;
+  height: 50px;
+  top: 26px;
+  left: 26px;
+}
+.ajax-loader {
+  position: absolute;
+  top: 35px;
+  left: 35px;
+  /*background: url('../images/juhua.gif') no-repeat 0 0;*/
+  width: 32px;
+  height: 32px;
+  z-index: 10;
+}
+.upload-fail {
+  background: url('../images/delete.png') no-repeat 0 0;
+  top: 26px;
+  left: 26px;
+  width: 50px;
+  height: 50px;
+}
+.foldbtn {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  background: url(../images/fold.png) no-repeat;
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  z-index: 10;
+  background-position: 2px 3px;
+  
+}
+.up {
+  background-position: -14px 3px;
+}
+.m-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 102px;
+  height: 102px;
+  z-index: 9;
+}

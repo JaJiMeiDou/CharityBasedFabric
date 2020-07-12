@@ -1,0 +1,382 @@
+{{ define "view/myhelp.html" }}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <link rel="stylesheet" href="../reso/css/bootstrap.css" />
+    <link rel="stylesheet" href="../reso/css/daohang.css" />
+    <link rel="stylesheet" href="../reso/css/style.css" />
+    <link rel="stylesheet" href="../reso/css/footer&cbl.css" />
+    <script type="text/javascript" src="../reso/js/jquery-2.1.1.min.js" ></script>
+    <script type="text/javascript" src="../reso/js/bootstrap.js" ></script>
+    <script type="text/javascript" src="../reso/js/index.js"></script>
+    <script type="text/javascript" src="../reso/js/templet.js" ></script>
+    <script type="text/javascript" src="../reso/js/hp.js" ></script>
+
+    <script type="text/javascript" src="../reso/uploadImage/js/uploadImg.js"></script>
+    <link href="../reso/uploadImage/css/index.css" rel="stylesheet"/>
+
+    <link href="https://cdn.bootcdn.net/ajax/libs/photoswipe/4.1.3/photoswipe.css" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/photoswipe/4.1.3/default-skin/default-skin.css" rel="stylesheet">
+    <script src="https://cdn.bootcdn.net/ajax/libs/photoswipe/4.1.3/photoswipe.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/photoswipe/4.1.3/photoswipe-ui-default.js"></script>
+    <title>我的求助信息</title>
+
+    <style>
+        #dv{
+            display: flex;
+            flex-direction: column;
+        }
+        .li1{
+            display: flex;
+            flex-direction: column;
+            padding: 50px;
+            border:1px solid #000;
+            border-radius: 0.5rem;
+            margin-bottom: 30px;
+            background-color: #dfedf0;
+        }
+        .li1 input{
+            background-color:transparent;
+            border:0;
+        }
+        .check{
+            margin-bottom: 30px;
+            font-size: large;
+            color: #ff2a37;
+        }
+        .matelist{
+            display: flex;
+            flex-direction: row;
+            padding: 10px;
+        }
+        .orginfo{
+            display: flex;
+            flex-direction: row;
+            padding: 10px;
+        }
+        .orgname{
+            width: 300px;
+            margin: 0 30px 0 10px;
+        }
+        .orgaddress{
+            width: 500px;
+            margin: 0 30px 0 10px;
+        }
+        .type{
+            width: 200px;
+            margin: 0 30px 0 10px;
+        }
+        .number{
+            width: 150px;
+            margin: 0 30px 0 10px;
+        }
+        .helpid{
+            display:none;
+        }
+
+        .frame{
+            display: flex;
+            flex-direction: row;
+            margin-top:10px;
+        }
+        .foot{
+            display: flex;
+            flex-direction: row;
+        }
+        .photos{
+            display: flex;
+            flex-direction: column;
+            width: 80%;
+        }
+        .frame img {
+            width: 80%;
+            height: auto;
+            margin: 1px 1px 1px 1px;
+        }
+        .a_matelist{
+            display: flex;
+            flex-direction: column;
+        }
+        .a_form-group{
+            display: flex;
+            flex-direction: row;
+            margin-top: 10px;
+        }
+
+    </style>
+</head>
+<body>
+
+<div id="main">
+    <header id="header" data-spy="affix" data-offset-top="70">
+        <nav class="navbar-inverse" id="daohang">
+            <div class="daohang">
+                <div class="navbar-header clearfix">
+                    <button type="button" class="zd" id="zd" >
+                        <span class="glyphicon glyphicon-align-justify"></span>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse" id="daohangtiao">
+                    <ul class="nav navbar-nav">
+			    <li><a href="http://175.24.90.252:8080/view/home">首页</a></li>
+			    <li><a href="http://175.24.90.252:8080/view/myhelp">我的求助</a></li>
+			    <li><a href="http://175.24.90.252:8080/view/mysupport">我的援助</a></li>
+		    </ul>
+
+		    <ul id="loginregister"class="zcdl nav navbar-nav pull-right">
+			    <li><a href="http://175.24.90.252:8080/view/login">登录</a></li>
+			    <li><a href="http://175.24.90.252:8080/view/register">注册</a></li>
+		    </ul>
+
+                    <ul id="username" class="zcdl nav navbar-nav pull-right" style="display: none;">
+                        <a id="welcome" style="font-size: 25px"></a>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+
+    <div class="main">
+        <div class="c2">
+            <div class="container"  >
+                <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" style="margin-left: 80%;">
+                    新建求助信息
+                </button>
+                <h1 class="hh1" style="font-size: 44px;padding-bottom: 20px;">我的求助项目</h1>
+                <div id="dv">
+                    <ul class="content">
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="width:800px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        ×
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        新建求助信息
+                    </h4>
+                    <p style="margin-top: 10px;color: red">提示：请先上传图片，再点击发布求助信息！</p>
+                </div>
+                <div class="modal-body" style="height:auto">
+                    <div class = "a_matelist">
+                        <div id="a_dv">
+                            <ul class="a_content">
+                                <h3 class="matelistlable">需求物资信息</h3>
+                                <li class="a_mateli1">
+                                    <div class="a_form-group" >
+                                        <label style="font-size: 18px;width: 30%">类别/名称及单位</label>
+                                        <input id="at_id0" class="a_type form-control" type="text" style="width: 60%">
+                                    </div>
+                                    <div class="a_form-group">
+                                        <label style="font-size: 18px;width: 30%">数目</label>
+                                        <input id="an_id0" class="a_num form-control" style="width: 20%" type="number" min="1">
+                                    </div>
+                                </li>
+                            </ul>
+                            <button type="button" class="btn btn-primary btn-sm" style="font-size: 13px;width: 110px;margin: 5px 0 20px 0" onclick=add() >添加更多</button>
+                            <h3 class="a_orginfolable">单位/组织信息</h3>
+                            <div class = "a_orginfo">
+                                <div class="a_form-group">
+                                    <label style="font-size: 18px;width: 30%">名称</label>
+                                    <input id="a_orgname" class="a_orgname form-control"  style="width: 60%" type="text">
+                                </div>
+                                <div class="a_form-group">
+                                    <label style="font-size: 18px;width: 30%">地址</label>
+                                    <input id="a_orgadd" class="a_orgaddress form-control"  style="width: 60%" type="text">
+                                </div>
+                            </div>
+                            <div id="upload" style="margin: 20px 0 10px 0;">
+                                <a href="javascript:void(0)" class="file">添加相关照片
+                                    <input type='file' id="file" multiple accept = 'image/gif,image/jpeg,image/jpg,image/png' />
+                                    <input type="hidden" />
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" onclick=applyhelp()>发布求助信息</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal -->
+    </div>
+
+</div>
+</body>
+<script>
+    var matearrnum=1;
+    var tempphoto=[];
+    var matearrlist=[];
+    var upimg=false;
+    var params = {
+        container: '#upload',
+        url: 'http://175.24.90.252:8080/ipfs/up',
+        dragDrop: false,
+        onSuccess: function (file,string) {
+            tempphoto.push(string);
+            upimg=true;
+            alert("提交成功");
+        }
+    };
+
+    var uploadImg1 = new UploadImg(params);
+
+    function add() {
+        a = '<li class="a_mateli1">';
+        a += '<div class="a_form-group" >';
+        a += '<label style="font-size: 18px;width: 30%">类别/名称及单位</label>';
+        a += '<input class="a_type form-control" type="text" style="width: 60%" id="at_id'+matearrnum.toString()+'">';
+        a += '</div>';
+        a += '<div class="a_form-group">';
+        a += '<label style="font-size: 18px;width: 30%">数目</label>';
+        a += '<input class="a_num form-control" style="width: 20%" type="number" min="1" id="an_id'+matearrnum.toString()+'">';
+        a += '</div>';
+        a += '</li>';
+        matearrnum++;
+        $(".a_content").append(a);
+    }
+
+
+    function applyhelp() {
+        if(upimg==false){
+            alert("必须上传图片！");
+            return;
+        }
+        for(var i=0;i<matearrnum;i++){
+            var mate={};
+            var t_id="at_id"+i.toString();
+            var n_id="an_id"+i.toString();
+            mate.category=document.getElementById(t_id).value;
+            mate.number=Number(document.getElementById(n_id).value);
+            matearrlist.push(mate);
+        }
+        var needlist=JSON.stringify(matearrlist);
+        var id=sessionStorage.getItem("id");
+        var org=document.getElementById("a_orgname").value;
+        var address=document.getElementById("a_orgadd").value;
+        var photolist=JSON.stringify(tempphoto);
+        if(needlist==""&&org==""&&address==""){
+            alert("所有均为必填项");
+            return;
+        }
+        var url = "http://175.24.90.252:8080/help?id="+id+"&needlist="+needlist+"&org="+org+"&address="+address+"&photolist="+photolist;
+        $.ajax({
+            type: "POST",
+            dataType: "text",
+            url: url,
+            success: function (json) {
+                alert("提交成功");
+                $('#myModal').modal('hide');
+                location.reload(true);
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert("提交失败");
+            }
+        });
+
+    }
+
+    function getHelpAndPhoto(){
+        var url ="http://175.24.90.252:8080/help/all/"+sessionStorage.getItem("id");
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: url,
+            success: function (json) {
+                console.log(json);
+                if(json!=null){
+                    ff(json);
+                }
+                else {
+                    alert("暂无");
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert("获取求助信息失败");
+            }
+        });
+    }
+
+    function ff(datalist){
+        for (var i = 0; i < datalist.length; i++) {
+            a = '<li class="li1">';
+            a += '<h3>审核情况</h3>';
+            a += '<p class="check" >';
+            if(datalist[i].checked==true){
+                if(datalist[i].adopted==true){
+                    a += "平台审核已通过" + '</p>';
+                }
+                else a += "平台审核未通过" + '</p>';
+            }
+            else a += "平台还未审核，请耐心等待" + '</p>';
+            a += '<input class="helpid" placeholder=' + datalist[i].hid + ' disabled="true">';
+            a += '<h3 class="matelistlable">需求物资信息</h3>';
+            a += '<div class = "matelist">';
+            a += '<ul>';
+            for (var j = 0; j < datalist[i].matearr.length; j++) {
+                a += '<li class="mateli1">';
+                a += '<label>物资名称类别</label>';
+                a += '<input class="type"  placeholder=' + datalist[i].matearr[j].category + ' disabled="true">';
+                a += '<label>数目</label>';
+                a += '<input class="number" placeholder=' + datalist[i].matearr[j].number + ' disabled="true">';
+                a += '</li>';
+            }
+            a += '</ul>';
+            a += '</div>';
+            a += '<h3 class="orginfolable">单位/组织信息</h3>';
+            a += '<div class = "orginfo">';
+            a += '<label>名称</label>';
+            a += '<input class="orgname"  placeholder=' + datalist[i].org + ' disabled="true">';
+            a += '<label>地址</label>';
+            a += '<input class="orgaddress"  placeholder=' + datalist[i].address + ' disabled="true">';
+            a += '</div>';
+            a += '<div class="foot">';
+            a+= '<div class="photos">';
+            a += '<h3 class="imagelistlable">相关图片</h3>';
+            a += '<div class="frame">';
+            for (var k = 0; k < datalist[i].photoitems.length; k++) {
+                a+='<a href='+datalist[i].photoitems[k].src+' data-size='+datalist[i].photoitems[k].size+'>';
+                a+='<img class="img-thumbnail" src='+datalist[i].photoitems[k].s+'/>';
+                a+='</a>';
+            }
+            a+='</div>';
+            a+='</div>';
+            a += '<div class="sbutton">';
+            a += '<a class="btn btn-primary btn-lg"  style="margin-top: 90%;" href="http://175.24.90.252:8080/related_support?hid='+datalist[i].hid+'">查看援助信息</a>';
+            a+='</div>';
+            a+='</div>';
+            a += '</li>';
+            $(".content").append(a);
+        }
+    }
+
+    window.onload = function() {
+        if(sessionStorage.getItem("name")!=null){
+            document.getElementById('username').style="";
+            document.getElementById('welcome').innerHTML="欢迎"+sessionStorage.getItem("name")+"!";
+            document.getElementById('loginregister').style="display:none";
+            getHelpAndPhoto();
+        }
+        else {
+            alert("请先登录!");
+        }
+    }
+
+
+</script>
+<script src="../reso/js/imagePreview.js"></script>
+</html>
+{{ end }}

@@ -1,0 +1,265 @@
+{{ define "view/addpath.html" }}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1,maximum-scale=1.0, user-scalable=no">
+    <title>添加路径信息</title>
+    <link href="../reso/uploadImage/css/index.css" rel="stylesheet"/>
+    <script type="text/javascript" src="../reso/uploadImage/js/jquery.js"></script>
+    <script type="text/javascript" src="../reso/uploadImage/js/uploadImg.js"></script>
+    <script type="text/javascript" src="../reso/js/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="../reso/js/getUrl.js"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=uN9rhjagBWmo0yFP0NEKU3sUujLRpspD"></script>
+    <style>
+        #container{
+            font: 14pt Arial, sans-serif;
+            background: lightgrey;
+            display: flex;
+            flex-direction: column;
+            height: 800px;
+	    width:370px; 
+	    padding: 2px 2px 2px 2px;
+        }
+        .form-label-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #location {
+            height: 30px;
+            width: 350px;
+            border-radius: 0.2rem;
+        }
+        #time {
+            height: 30px;
+            width: 350px;
+            border-radius: 0.2rem;
+        }
+
+        .lab {
+            width: 60%;
+            height: 5vh;
+            line-height: 1.5;
+            color: #495057;
+            border: 1px solid transparent;
+            border-radius: .25rem;
+            transition: all .1s ease-in-out;
+        }
+        #submitdata {
+            flex-direction: row;
+            text-align: right;
+            color:#1e88c7;
+        }
+        button {
+            height: 5vh;
+            width: 10vh;
+            margin: 5vh;
+        }
+
+    </style>
+</head>
+
+<body>
+<div id="container">
+    <form class="form" name='form' action='' id='form' method="post">
+        <div class="form-label-group">
+            <div class = "lab">获取地理位置</div>
+            <div >
+                <input type="text"  id="location" name="location" class='required' required  placeholder="自动获取地理位置信息">
+            </div>
+        </div>
+        <hr>
+        <div class="form-label-group">
+            <div class = "lab">获取系统时间</div>
+            <div >
+                <input type="text"  id="time" name="time" class='required' required  placeholder="自动获取系统时间信息">
+            </div>
+        </div>
+        <hr>
+    </form>
+
+    <div id="upload">
+        <a href="javascript:void(0)" class="file">选择文件
+            <input type='file' id="file" multiple accept = 'image/gif,image/jpeg,image/jpg,image/png' />
+            <input type="hidden" />
+        </a>
+    </div>
+    <div id="submitdata">
+        <button onclick="subm()">提交</button>
+    </div>
+
+</div>
+
+<script>
+    var upimg=false;
+    var tempphoto=[];
+
+    window.onload = function() {
+        showTime();
+      	/*var mapObj = new AMap.Map('iCenter');
+	 mapObj.plugin('AMap.Geolocation', function () {
+		 var geolocation = new AMap.Geolocation({
+			 enableHighAccuracy: true, // 是否使用高精度定位，默认:true
+			 timeout: 10000,           // 超过10秒后停止定位，默认：无穷大
+			 maximumAge: 0,            // 定位结果缓存0毫秒，默认：0
+			 convert: true,            // 自动偏移坐标，偏移后的坐标为高德坐标，默认：true
+			 showButton: true,         // 显示定位按钮，默认：true
+			 buttonPosition: 'LB',     // 定位按钮停靠位置，默认：'LB'，左下角
+			 buttonOffset: new AMap.Pixel(10, 20), // 定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
+			 showMarker: true,         // 定位成功后在定位到的位置显示点标记，默认：true
+			 showCircle: true,         // 定位成功后用圆圈表示定位精度范围，默认：true
+			 panToLocation: true,      // 定位成功后将定位到的位置作为地图中心点，默认：true
+			 zoomToAccuracy:true       // 定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+		 });
+		 mapObj.addControl(geolocation);
+		 geolocation.getCurrentPosition();
+		 AMap.event.addListener(geolocation, 'complete', onComplete); // 返回定位信息
+		 AMap.event.addListener(geolocation, 'error', onError);       // 返回定位出错信息
+	 });
+	    function onComplete(obj){
+		    var loca = document.getElementById('location');
+		    loca.value=obj.formattedAddress;
+		    loca.disabled=true;
+		    //alert(obj.formattedAddress);
+	    }
+	    function onError(obj) {
+		    alert(obj.info + '--' + obj.message);
+	    }*/
+	 
+	    var geolocation = new BMap.Geolocation();
+	    geolocation.getCurrentPosition(function(r){console.log(r.point)
+		    if(this.getStatus() == BMAP_STATUS_SUCCESS){
+			    var mk = new BMap.Marker(r.point);
+			    //map.addOverlay(mk);//标出所在地
+			    //map.panTo(r.point);//地图中心移动
+			    var point = new BMap.Point(r.point.lng,r.point.lat);//用所定位的经纬度查找所在地省市街道等信息
+			    var gc = new BMap.Geocoder();
+			    gc.getLocation(point, function(rs){
+				    var addComp = rs.addressComponents;
+				    var loca = document.getElementById('location');
+				    loca.value=rs.address;
+				    loca.disabled=true;
+			    });
+		    }else {
+			     alert('failed'+this.getStatus());
+		    }
+	    },{enableHighAccuracy: true})
+
+    };
+
+    var params = {
+        container: '#upload',
+        url: 'http://175.24.90.252:8080/ipfs/up',
+        dragDrop: false,
+	width:360,
+        onSuccess: function (file,string) {
+            tempphoto.push(string);
+            upimg=true;
+		//console.log(tempphoto);
+            alert("上传图片成功！");
+        }
+    };
+
+    var uploadImg1 = new UploadImg(params);
+
+    function subm() {
+	if(upimg==false){
+		alert("必须上传图片！");
+		return;
+	}
+        var location=document.getElementById('location').value;
+        var time=document.getElementById('time').value;
+        var photolist=JSON.stringify(tempphoto);
+        var id = $.getUrlParam('id');
+        var url = "http://175.24.90.252:8080/support/path?id="+id+"&location="+location+"&time="+time+"&photolist="+photolist;
+        $.ajax({
+            type: "POST",
+            dataType: "text",
+            url: url,
+            success: function (json) {
+                alert("提交成功");
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert("提交失败");
+            }
+        });
+    }
+
+    function checkTime(i) {
+        if (i < 10) {
+            i = '0' + i;
+        }
+        return i;
+    }
+
+    function showTime() {
+        var show = document.getElementById('time');
+        var myDate = new Date();
+        var year = myDate.getFullYear();
+        var month = myDate.getMonth() + 1;
+        var date = myDate.getDate();
+        var h = myDate.getHours();
+        var m = myDate.getMinutes();
+        m = checkTime(m);
+        h = checkTime(h);
+
+
+        show.value = year + '/' + month + '/' + date + '/' +" "+ h + ':' + m ;
+        setTimeout(showTime, 1000);
+        show.disabled=true;
+    }
+
+
+    /*function getLocation(){
+        if (navigator.geolocation){
+            navigator.geolocation.getCurrentPosition(showPosition,showError);
+        }else{
+            alert("浏览器不支持地理定位。");
+        }
+    }
+
+    function showPosition(position){
+        var latlon = position.coords.latitude+','+position.coords.longitude;
+
+        //baidu
+        var url = "http://api.map.baidu.com/geocoder/v2/?ak=C93b5178d7a8ebdb830b9b557abce78b&callback=renderReverse&location="+latlon+"&output=json&pois=0";
+        $.ajax({
+            type: "GET",
+            dataType: "jsonp",
+            url: url,
+            success: function (json) {
+                if(json.status==0){
+                    var loca = document.getElementById('location');
+                    loca.value=json.result.formatted_address;
+                    loca.disabled=true;
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert("地址位置获取失败");
+            }
+        });
+    }
+
+    function showError(error){
+        switch(error.code) {
+            case error.PERMISSION_DENIED:
+                alert("定位失败,用户拒绝请求地理定位");
+                break;
+            case error.POSITION_UNAVAILABLE:
+                alert("定位失败,位置信息是不可用");
+                break;
+            case error.TIMEOUT:
+                alert("定位失败,请求获取用户位置超时");
+                break;
+            case error.UNKNOWN_ERROR:
+                alert("定位失败,定位系统失效");
+                break;
+        }
+    }*/
+
+
+</script>
+</body>
+</html>
+{{ end }}

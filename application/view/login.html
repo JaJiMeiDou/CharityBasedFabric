@@ -1,0 +1,100 @@
+﻿{{ define "view/login.html" }}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="../reso/css/bootstrap.css" />
+		<link rel="stylesheet" href="../reso/css/login.css" />
+		<link rel="stylesheet" href="../reso/css/footer&cbl.css" />
+		<link rel="stylesheet" href="../reso/css/daohang.css" />
+		<script type="text/javascript" src="../reso/js/jquery-1.11.3.js" ></script>		
+		<script type="text/javascript" src="../reso/js/bootstrap.js" ></script>
+		<script type="text/javascript" src="../reso/js/hp.js" ></script>
+		<title>登录</title>
+	</head>
+	<body>
+		<div id="main">
+			<nav class=" navbar-inverse" id="daohang">
+				<div class="daohang">
+					<div class="navbar-header clearfix">
+						<button type="button" class="zd" id="zd" >
+							<span class="glyphicon glyphicon-align-justify"></span>
+						</button>
+					</div>
+					<div class="collapse navbar-collapse" id="daohangtiao">
+						<span class="close"><a href="http://175.24.90.252:8080/view/home"><i></i></a></span>
+					</div>						
+				</div>
+				<div id="box">
+					<div class="box1 col-sm-2 col-xs-2">
+						<span id="X" class="glyphicon glyphicon-remove pull-right" ></span>
+					</div>
+					<div class="box2 col-sm-10 col-xs-10" >
+						<ul id="ul1" class="clearfix">
+							<li><a href="http://175.24.90.252:8080/view/home">首页</a></li>
+							<li><a href="http://175.24.90.252:8080/view/myhelp">我的求助</a></li>
+							<li><a href="http://175.24.90.252:8080/view/mysupport">我的援助</a></li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+			<div class="main">	
+			<div class="container">
+				<div class="c3">
+					<form action='' method="post">
+						<div class="form-group">
+    						<label for="usernameoremail">用户名</label>
+    						<input type="text" class="form-control" id="usernameoremail" required='required' style="background: white">
+  						</div>
+  						<div class="form-group">
+    						<label for="password">密码</label>
+    						<input type="password" class="form-control" id="password" required='required'>
+  						</div>
+					</form>
+					<div class="c3-1">
+						<button id="denglu" class="btn btn-default btn1" onclick=subm()>登录</button>
+						<a href="http://175.24.90.252:8080/view/register" type="button" class="btn btn-default btn2">注册</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+
+	<script>
+		function subm() {
+			var user=document.getElementById('usernameoremail').value;
+			var password=document.getElementById('password').value;
+			if(user==null||password==null) {
+				alert("请输入用户名或者密码")
+				return
+			}
+			var url = "http://175.24.90.252:8080/login?id="+user+"&password="+password;
+
+			$.ajax({
+				type: "POST",
+				dataType: "json",
+				url: url,
+				success: function (json) {
+					sessionStorage.setItem("name",json.name);
+					sessionStorage.setItem("id",json.id);
+					sessionStorage.setItem("phone",json.phone);
+					sessionStorage.setItem("hunm",json.hnum);
+					sessionStorage.setItem("sunm",json.snum);
+					console.log(sessionStorage);
+					alert("登录成功");
+					//window.location.href="login.jsp?backurl="+window.location.href;
+					window.location.href='http://175.24.90.252:8080/view/home';
+
+				},
+				error: function (XMLHttpRequest, textStatus, errorThrown) {
+					alert("提交失败");
+				}
+			});
+		}
+
+	</script>
+	</body>
+
+</html>
+{{ end }}

@@ -1,0 +1,120 @@
+﻿{{ define "view/register.html" }}
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="../reso/css/bootstrap.css" />
+		<link rel="stylesheet" href="../reso/css/register.css" />
+		<link rel="stylesheet" href="../reso/css/footer&cbl.css" />
+		<link rel="stylesheet" href="../reso/css/daohang.css" />
+		<script type="text/javascript" src="../reso/js/jquery-1.11.3.js" ></script>		
+		<script type="text/javascript" src="../reso/js/bootstrap.js" ></script>
+		<script type="text/javascript" src="../reso/js/hp.js" ></script>
+		<script type="text/javascript"></script>
+		<title>注册</title>
+	</head>
+	<body>
+	<div id="main">
+		<nav class=" navbar-inverse" id="daohang">
+				<div class="daohang">
+					<div class="navbar-header clearfix">
+						<button type="button" class="zd" id="zd" >
+							<span class="glyphicon glyphicon-align-justify"></span>
+						</button>
+					</div>
+					<div class="collapse navbar-collapse" id="daohangtiao">
+						<span class="close"><a href="http://175.24.90.252:8080/view/home"><i></i></a></span>
+					</div>						
+				</div>
+				<div id="box">
+					<div class="box1 col-sm-2 col-xs-2">
+						<span id="X" class="glyphicon glyphicon-remove pull-right" ></span>
+					</div>
+					<div class="box2 col-sm-10 col-xs-10" >
+						<ul id="ul1"class="clearfix">
+							<li><a href="http://175.24.90.252:8080/view/home">首页</a></li>
+							<li><a href="http://175.24.90.252:8080/view/myhelp">我的求助</a></li>
+							<li><a href="http://175.24.90.252:8080/view/mysupport">我的援助</a></li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		<div class="main">
+			<div class="container  ">
+				<div class="c3">
+					<form>
+						<div class="form-group">
+    						<label for="name">姓名 *</label>
+    						<input type="text" class="form-control" id="name"  required='required'>
+    						<span class="pp hide">此项必须填写</span>
+  						</div>
+						<div class="form-group">
+							<label for="password1">用户名(身份证号) *</label>
+							<input type="text" class="form-control" id="ID"  required='required' pattern="^([0-9]){7,18}(x|X)?$">
+							<span class="pp hide">此项必须填写</span>
+						</div>
+						<div class="form-group">
+							<label for="password1">电话号码 *</label>
+							<input type="text" class="form-control" id="phone"  required='required' pattern="^(1[0-9][0-9])\d{8}$">
+							<span class="pp hide">此项必须填写</span>
+						</div>
+  						<div class="form-group">
+    						<label for="password1">密码 <img class="help" src="../reso/img/help.png" title="字母开头，长度在6~18之间，只能包含字母、数字和下划线"/>*</label>
+    						<input type="password" class="form-control" id="password1" required='required' pattern="^[a-zA-Z]\w{5,17}$">
+  							<span class="pp hide">此项必须填写</span>
+  						</div>
+  						<div class="form-group">
+    						<label for="password2">再次输入密码 *</label>
+    						<input type="password" class="form-control" id="password2" required='required'>
+							<span class="pp hide">此项必须填写</span>
+  						</div>
+  						<div class="c3-1">
+							<button type="submit" class="btn btn-default btn1" onclick=subm()>注册</button>
+							<a href="http://175.24.90.252:8080/view/login" type="button" class="btn btn-default btn2">已经有账号了?请登录</a>
+						</div>
+
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	</body>
+	<script>
+		function subm() {
+			var name=document.getElementById('name').value;
+			var id=document.getElementById('ID').value;
+			var password1=document.getElementById('password1').value;
+			var password2=document.getElementById('password2').value;
+			var phone=document.getElementById('phone').value;
+
+			if(name==""||id==""||password1==""||password2==""||phone=="") {
+				alert("所有条目都是必填项");
+				return;
+			}
+			if(password1!=password2){
+				alert("两次密码输入不一样");
+				return;
+			}
+			console.log(name,id,password2);
+				var url = "http://175.24.90.252:8080/user?name="+name+"&id="+id+"&phone="+phone+"&password="+password1;
+
+				$.ajax({
+					type: "POST",
+					dataType: "text",
+					url: url,
+					success: function (json) {
+						alert("注册成功");
+						//window.location.href="login.jsp?backurl="+window.location.href;
+						window.location.href='http://175.24.90.252:8080/view/login';
+					},
+					error: function (XMLHttpRequest, textStatus, errorThrown) {
+						alert("注册失败");
+					}
+				});
+		}
+	</script>
+
+	
+</html>
+{{ end }}
